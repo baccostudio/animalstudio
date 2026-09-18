@@ -38,7 +38,6 @@ Pendiente de datos del cliente:
 - [ ] [PDF] **Dirección** de la sede y **mapa** (embed de Google Maps + link de indicaciones) en `content/contact.ts` y `components/sections/Contact.tsx`. El PDF pide "ubicación(es) con mapa y contacto".
 - [ ] [PDF] **Email / WhatsApp** de contacto (`content/contact.ts`).
 - [ ] [PDF] **Redes sociales** además de Instagram, si las hay. El PDF pide "footer con redes sociales".
-- [ ] [PDF] **Cita del fundador** en el bloque de manifiesto (hoy firma como "Manifiesto Animal Studio").
 - [ ] [PDF] **Fotos y video propios** de instalaciones y clases: el PDF dice que Animal los aporta. Reemplazar los renders de la galería y, si entregan video, el hero.
 - [ ] [PDF] Confirmar nombres y descripciones definitivos de los 3 planes (`content/plans.ts`). El PDF dice que los administradores cambian nombres.
 
