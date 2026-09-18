@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "mock:respondio": "node .claude/skills/animal-verify/scripts/respondio-mock.mjs",
+    "check": "node .claude/skills/animal-verify/scripts/check-behavior.mjs http://localhost:3000"
   },
   "dependencies": {
     "next": "16.3.5",
@@ -20,6 +22,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
+    "puppeteer-core": "^25.11.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

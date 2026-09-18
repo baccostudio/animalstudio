@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Animal Studio — landing
 
-## Getting Started
+Landing de Animal Studio (Longevity Performance Club) en Next.js 16 (App Router, React 19, TypeScript, Tailwind 4).
 
-First, run the development server:
+## Scripts
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev     # http://localhost:3000
+npm run build   # build de producción
+npm run start   # sirve el build
+npm run lint    # ESLint
+npm run check   # checklist de comportamiento (intro, modal, menú mobile) contra localhost:3000
+npm run mock:respondio   # respond.io simulado en :5070 para probar el form sin credenciales
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Variables de entorno y modo de prueba
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copiar `.env.example` a `.env.local` (no se commitea). Sin ese archivo el formulario funciona igual y los leads se imprimen en la consola del servidor.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Prueba**: `LEAD_PROVIDER=console,webhook` y `LEAD_WEBHOOK_URL` con una URL de [webhook.site](https://webhook.site) para ver el JSON de cada lead.
+- **Producción**: `LEAD_PROVIDER=respondio` con el `RESPONDIO_API_TOKEN` del cliente (plan Growth o superior, Settings → Integrations → Developer API) y, si quieren, `RESPONDIO_TAGS`.
 
-## Learn More
+No se envían emails: el asesor ve y trabaja el lead en respond.io, que es lo que pidió el cliente.
 
-To learn more about Next.js, take a look at the following resources:
+Detalle completo en `.env.example` y en `.claude/skills/animal-lead-form/SKILL.md`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Estructura
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/
+  layout.tsx        fuentes (Inter + Chakra Petch via next/font), metadata, <AttributionCapture>, <LeadModalProvider>
+  page.tsx          compone la landing
+  privacidad/       política de privacidad
+  actions/lead.ts   Server Action del formulario de leads
+  globals.css       tokens de diseño (@theme), variantes js/intro-done, base y CSS no expresable en utilidades
+  icon.png          favicon
+components/
+  ui/               Button, Container, Section, Eyebrow, Kicker, SectionHead
+  layout/           IntroSplash, SiteHeader, SiteFooter
+  sections/         Hero, Manifesto, Breaker, Pillars, Gallery (+ Gallery.module.css), Plans, Community, Contact
+  effects/          RevealObserver (reveal on scroll), ClockCounter (01:23), AttributionCapture (UTM/referrer)
+  lead/             LeadModalProvider (modal), LeadForm (form + estados), LeadTrigger (botón/link que abre el modal)
+lib/leads/          proveedores de leads (console, webhook, respond.io), rate limit, formato
+content/            textos y datos editables: nav, pilares, planes, galería, reseñas, contacto, legal
+public/images/      fotos y logos
+```
 
-## Deploy on Vercel
+## Convenciones
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Estilos con utilidades Tailwind. Lo que no cabe en una línea (keyframes, grid-areas de la galería,
+  gradientes múltiples, estados `.reveal` / `intro-done`) vive en `globals.css` o en un `.module.css` co-localizado.
+- Breakpoints: `md` = 701px y `lg` = 981px (los del diseño original), escritos mobile-first.
+- Imágenes con `next/image` (import estático desde `public/images`). Fuentes self-hosteadas con `next/font`.
+- Componentes cliente solo donde hay interacción: intro, header, reveal, reloj y modal.
+- El formulario del modal envía a los proveedores configurados en `LEAD_PROVIDER` (ver arriba); las keys viven solo en el servidor.

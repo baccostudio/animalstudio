@@ -1,0 +1,50 @@
+/* Mosaic layout: 1 column on phones, 2 on tablets, 4 on desktop. Areas a–j map to content/gallery.ts */
+.grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(10, 260px);
+  grid-template-areas:
+    "a"
+    "b"
+    "c"
+    "d"
+    "e"
+    "f"
+    "g"
+    "h"
+    "i"
+    "j";
+}
+
+@media (min-width: 701px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(9, 200px);
+    grid-template-areas:
+      "a a"
+      "a a"
+      "b c"
+      "d d"
+      "e e"
+      "f f"
+      "f f"
+      "g h"
+      "i j";
+  }
+}
+
+@media (min-width: 981px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(7, 220px);
+    grid-template-areas:
+      "a a b c"
+      "a a b c"
+      "d d e e"
+      "f f g h"
+      "f f g h"
+      "i i j j"
+      "i i j j";
+  }
+}
